@@ -6,9 +6,13 @@ Generates cachebuster manifests compatible with KMT from webpack assets.
 
     TODOnpm i @kingsquare/kmt-cachebuster-webpack-plugin --dev
 
-Then add the plugin `KmtCachebusterWebpackPlugin` to your webpack's plugin configuration
+Then add the plugin to your webpack configuration
 
 ````javascript
+const KmtCachebusterWebpackPlugin = require('@kingsquare/kmt-cachebuster-webpack-plugin');
+
+// ...
+
 plugins: [
   new KmtCachebusterWebpackPlugin()
 ]
