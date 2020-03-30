@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const assign = require('lodash/assign');
 
 // TODO v4
 
@@ -12,7 +11,7 @@ const assign = require('lodash/assign');
 
 class KmtWebpackPluginCachebuster {
   constructor(options) {
-    this.options = assign({
+    this.options = Object.assign({
       // no custom options yet
     }, options || {});
   }
