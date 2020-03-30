@@ -1,13 +1,10 @@
 {
   "name": "@kingsquare/kmt-cachebuster-webpack-plugin",
-  "version": "0.0.0-alpha2",
+  "version": "0.0.0-alpha3",
   "description": "KMT Webpack plugin for cachebusting webpack resources according to the KMT specification",
   "main": "src/index.js",
   "author": "Kingsquare BV <source@kingsquare.nl>",
   "license": "MIT",
-  "engines": {
-    "node": ">=8"
-  },
   "files": [
     "src/index.js",
     "README.md",
@@ -23,11 +20,27 @@
   "scripts": {
     "lint": "eslint ./src"
   },
-  "devDependencies": {
-    "eslint": "^4",
-    "eslint-config-kingsquare": "^1.0.13"
+  "engines": {
+    "node": ">=8"
   },
   "peerDependencies": {
     "webpack": "2 || 3 || 4"
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.5",
+    "@types/webpack": "^4.41.9",
+    "eslint": "^6.8.0",
+    "eslint-config-kingsquare": "^6.0.2",
+    "prettier": "^1.19.1",
+    "typescript": "^3.8.3"
+  },
+  "eslintConfig": {
+    "extends": "kingsquare"
+  },
+  "eslintIgnore": [
+    "dist/**/*"
+  ],
+  "prettier": {
+    "printWidth": 120
   }
 }
