@@ -9,7 +9,9 @@
     "node": ">=8"
   },
   "files": [
-    "index.js"
+    "src/index.js",
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",
