@@ -19,7 +19,7 @@
     "url": "https://github.com/kingsquare/kmt-cachebuster-webpack-plugin/issues"
   },
   "scripts": {
-    "prepublish": "yarn run lint && yarn run build",
+    "prepublishOnly": "yarn run lint && yarn run build",
     "build": "tsc",
     "lint": "eslint ./src/**/*.ts"
   },
