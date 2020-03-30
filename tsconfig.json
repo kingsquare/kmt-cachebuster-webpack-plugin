@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "baseUrl": "src",
+    "outDir": "dist",
+    "declaration": true
+  },
+  "include": ["src/**/*"]
+}
