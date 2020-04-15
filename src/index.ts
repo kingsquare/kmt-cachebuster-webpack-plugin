@@ -10,12 +10,14 @@ namespace KmtWebpackPluginCachebuster {
    * Options for the KMT Cachebuster Webpack plugin
    */
   export interface Options {
-    prefix?: string;
+    hashPrefix?: string;
+    outputHashPrefix?: string;
     hashSize?: number;
     manifest?: {
       rewriteEntries?: boolean;
       fileName?: string;
     };
+    debug?: boolean;
   }
 }
 
@@ -28,11 +30,17 @@ namespace KmtWebpackPluginCachebuster {
  */
 class KmtWebpackPluginCachebuster implements Plugin {
   private readonly options: KmtWebpackPluginCachebuster.Options = {
-    prefix: ".kmt",
+    hashPrefix: "kmt",
+    outputHashPrefix: "kmt",
+    /**
+     * Also the encore default hash size
+     */
+    hashSize: 8,
     manifest: {
       rewriteEntries: true,
       fileName: "manifest.json"
-    }
+    },
+    debug: false
   };
 
   private outputFolder: string = "";
@@ -81,15 +89,28 @@ class KmtWebpackPluginCachebuster implements Plugin {
     assets.forEach(asset => {
       // rewrite assets with hashes to assets without hashes
       // we limit the hash size to 8 (the encore default) to reduce false positives
-      const re = new RegExp(`^(.*)(\\.${this.options.prefix}([a-z0-9]{${this.options.hashSize}}))\\.(js|css)$`, "i");
+      const reString = `^(.*)(\\.${this.options.hashPrefix}([a-z0-9]{${this.options.hashSize}}))\\.(js|css)$`;
+      if (this.options.debug) {
+        console.log("re -> ", reString);
+      }
+      const re = new RegExp(reString, "i");
       const newFileName = asset.name.replace(re, "$1.$4");
+      const prefixedAssetName = asset.name.replace(re, `$1.${this.options.outputHashPrefix}$3.$4`);
+      if (this.options.debug) {
+        console.log(asset.name, " -> ", newFileName, prefixedAssetName);
+      }
       if (newFileName !== asset.name) {
-        manifest[`${this.publicPath.substring(1)}${newFileName}`] = `${this.publicPath}${asset.name}`; // remove starting slash..
+        manifest[`${this.publicPath.substring(1)}${newFileName}`] = `${this.publicPath}${prefixedAssetName}`; // remove starting slash..
         fs.renameSync(path.resolve(this.outputFolder, asset.name), path.resolve(this.outputFolder, newFileName));
       }
     });
 
     if (hasManifestPlugin && !this.options.manifest?.rewriteEntries) {
+      return;
+    }
+
+    if (Object.keys(manifest).length === 0) {
+      console.error(`[${PLUGIN_ID}] Empty manifest`);
       return;
     }
 
