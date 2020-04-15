@@ -1,6 +1,6 @@
 {
   "name": "@kingsquare/kmt-cachebuster-webpack-plugin",
-  "version": "0.0.0-alpha5",
+  "version": "0.0.0-alpha6",
   "description": "KMT Webpack plugin for cachebusting webpack resources according to the KMT specification",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
