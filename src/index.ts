@@ -1,28 +1,33 @@
-import webpack, { Plugin, Stats } from "webpack";
+import { Compiler, Plugin, Stats } from "webpack";
 
 const fs = require("fs");
 const path = require("path");
 
-// TODO v5
-
 const PLUGIN_ID = "KmtWebpackPluginCachebuster";
 
-/**
- * Options for the KMT Cachebuster Webpack plugin
- */
-export interface KmtWebpackPluginCachebusterOptions {
-  prefix?: string;
-  manifest?: {
-    rewriteEntries?: boolean;
-    fileName?: string;
-  };
+namespace KmtWebpackPluginCachebuster {
+  /**
+   * Options for the KMT Cachebuster Webpack plugin
+   */
+  export interface Options {
+    prefix?: string;
+    hashSize?: number;
+    manifest?: {
+      rewriteEntries?: boolean;
+      fileName?: string;
+    };
+  }
 }
 
 /**
+ * KmtWebpackPluginCachebuster
  *
+ * ...
+ *
+ * Options description in README.md
  */
-class KmtWebpackPluginCachebuster extends Plugin {
-  private readonly options: KmtWebpackPluginCachebusterOptions = {
+class KmtWebpackPluginCachebuster implements Plugin {
+  private readonly options: KmtWebpackPluginCachebuster.Options = {
     prefix: ".kmt",
     manifest: {
       rewriteEntries: true,
@@ -33,12 +38,11 @@ class KmtWebpackPluginCachebuster extends Plugin {
   private outputFolder: string = "";
   private publicPath: string = "";
 
-  constructor(options: KmtWebpackPluginCachebusterOptions) {
-    super();
+  constructor(options?: KmtWebpackPluginCachebuster.Options) {
     this.options = Object.assign(this.options, options || {});
   }
 
-  apply(compiler: webpack.Compiler): void {
+  apply(compiler: Compiler): void {
     this.outputFolder = compiler.options.output?.path ?? "";
     this.publicPath = compiler.options.output?.publicPath ?? "";
 
@@ -91,4 +95,4 @@ class KmtWebpackPluginCachebuster extends Plugin {
   }
 }
 
-module.exports = KmtWebpackPluginCachebuster;
+export = KmtWebpackPluginCachebuster;
