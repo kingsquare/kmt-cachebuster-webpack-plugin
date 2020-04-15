@@ -65,33 +65,39 @@ class KmtWebpackPluginCachebuster implements Plugin {
   }
 
   done(stats: Stats) {
-    const rewrites: string[] = [];
-    (stats.toJson().assets ?? []).forEach(asset => {
-      // 1) rewrite assets with hashes to assets without hashes
-      //    we limit the hash size to 8 (the encore default) to reduce false positives
-      const newFileName = asset.name.replace(/^(.*)(\.([a-z0-9]{8}))\.(.*)$/i, "$1.$4");
+    const manifest: {
+      [key: string]: string;
+    } = {};
+
+    const assets = stats.toJson().assets ?? [];
+
+    if (assets.length === 0) {
+      console.error(`[${PLUGIN_ID}] Could not find any assets`);
+      return;
+    }
+
+    const hasManifestPlugin = assets.find(a => a.name === "manifest.json");
+
+    assets.forEach(asset => {
+      // rewrite assets with hashes to assets without hashes
+      // we limit the hash size to 8 (the encore default) to reduce false positives
+      const re = new RegExp(`^(.*)(\\.${this.options.prefix}([a-z0-9]{${this.options.hashSize}}))\\.(js|css)$`, "i");
+      const newFileName = asset.name.replace(re, "$1.$4");
       if (newFileName !== asset.name) {
-        rewrites.push(`${this.publicPath.substring(1)}${newFileName}`); // remove starting slash..
+        manifest[`${this.publicPath.substring(1)}${newFileName}`] = `${this.publicPath}${asset.name}`; // remove starting slash..
         fs.renameSync(path.resolve(this.outputFolder, asset.name), path.resolve(this.outputFolder, newFileName));
       }
-
-      // 2) rewrite manifest.json entries; this could also be done by the manifest generator options,
-      //    though doing it here this keeps the amount of specific code to one enclosed block.
-      //    Assumed is that the manifest.json is the last file (so we know what we should rewrite)
-      //    We also check that the "manifest.json" actually contains assets that have been rewritten.
-      //    TODO detect that manifest.json is the WebpackManifest and not another manifest.json (i.e. pwa)
-      if (this.options.manifest?.rewriteEntries && asset.name === this.options.manifest.fileName) {
-        const manifestPath = path.resolve(this.outputFolder, asset.name);
-        // eslint-disable-next-line import/no-dynamic-require,global-require
-        const manifest = require(manifestPath);
-        Object.keys(manifest).forEach(key => {
-          if (rewrites.indexOf(key) !== -1) {
-            manifest[key] = manifest[key].replace(/^(.*)\.(.*)\.(.*)$/, `$1${this.options.prefix}$2.$3`);
-          }
-        });
-        fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-      }
     });
+
+    if (hasManifestPlugin && !this.options.manifest?.rewriteEntries) {
+      return;
+    }
+
+    // create/overwrite manifest.json
+    fs.writeFileSync(
+      path.resolve(this.outputFolder, this.options.manifest?.fileName as string),
+      JSON.stringify(manifest, null, 2)
+    );
   }
 }
 
