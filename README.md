@@ -1,3 +1,17 @@
+![npm type definitions](https://img.shields.io/npm/types/@kingsquare/kmt-cachebuster-webpack-plugin?style=flat-square)
+![npm peer dependency version (scoped)](https://img.shields.io/npm/dependency-version/@kingsquare/kmt-cachebuster-webpack-plugin/dev/eslint-config-kingsquare?style=flat-square)
+![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/kingsquare/kmt-cachebuster-webpack-plugin?style=flat-square)
+![Scrutinizer coverage (GitHub/BitBucket)](https://img.shields.io/scrutinizer/coverage/g/kingsquare/kmt-cachebuster-webpack-plugin?style=flat-square)
+
+![node support](https://img.shields.io/node/v/@kingsquare/kmt-cachebuster-webpack-plugin?style=flat-square)
+![webpack support](https://img.shields.io/badge/webpack->3_<=4-brightgreen?style=flat-square)
+
+![GitHub package.json version](https://img.shields.io/github/package-json/v/kingsquare/kmt-cachebuster-webpack-plugin?style=flat-square)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/kingsquare/kmt-cachebuster-webpack-plugin?style=flat-square)
+![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/kingsquare/kmt-cachebuster-webpack-plugin?style=flat-square)
+![GitHub Release Date](https://img.shields.io/github/release-date/kingsquare/kmt-cachebuster-webpack-plugin?style=flat-square)
+![npm (scoped)](https://img.shields.io/npm/v/@kingsquare/kmt-cachebuster-webpack-plugin?style=flat-square)
+
 # KMT Cachebuster Webpack plugin
 
 Rewrites assets with hashes to assets without hashes compatible with KMT cachebusting.
