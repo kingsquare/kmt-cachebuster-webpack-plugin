@@ -42,6 +42,9 @@ Encore
 
 Generated assets in the form of `asset.WEBPACKHASH.js` will be renamed to `asset.js` and the hash is added to the `manifest.json`
 
-## Implementation
+## Compatibility
 
-Rewrites assets with hashes to assets without hashes. Generated assets in the form of `asset.kmtWEBPACKHASH.js` will be renamed to `asset.js` and the cachebuster is added to the `manifest.json`
+ * [x] Webpack 3
+ * [x] Webpack 4
+ * [ ] Webpack 5
+
