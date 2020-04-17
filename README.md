@@ -7,6 +7,10 @@ Generated assets in the form of `asset.kmtWEBPACKHASH.js` will be renamed to `as
 
 ## Usage
 
+    yarn add @kingsquare/kmt-cachebuster-webpack-plugin
+
+Or
+
     npm i @kingsquare/kmt-cachebuster-webpack-plugin
 
 Then add the plugin to your webpack configuration
