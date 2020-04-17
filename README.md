@@ -1,6 +1,9 @@
 # KMT Cachebuster Webpack plugin
 
+Rewrites assets with hashes to assets without hashes compatible with KMT cachebusting.
 Generates cachebuster manifests compatible with KMT from webpack assets.
+
+Generated assets in the form of `asset.kmtWEBPACKHASH.js` will be renamed to `asset.js` and the hash is added to the `manifest.json`
 
 ## Usage
 
@@ -36,6 +39,8 @@ Encore
     42 // A priority that no one knows if it is the last
   );
 ````
+
+Generated assets in the form of `asset.WEBPACKHASH.js` will be renamed to `asset.js` and the hash is added to the `manifest.json`
 
 ## Implementation
 
