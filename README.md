@@ -17,22 +17,29 @@ Then add the plugin to your webpack configuration
 
 ````javascript
 const KmtCachebusterWebpackPlugin = require('@kingsquare/kmt-cachebuster-webpack-plugin');
-
-// ...
-
-plugins: [
-  new KmtCachebusterWebpackPlugin()
-]
 ````
 
-You should also set the entry/asset `filename`/`chunkFilename` to `[name].kmt[chunkhash:8].js` this ensures that possible maps and/or code split assets will load with the correct hash (which is embedded in the generated webpack bootstrap)
+### Configuration
+
+````javascript
+const config = {
+  output: {
+    filename: "app.kmt[contenthash:8].js",
+    chunkFilename: "app.chunk[name].kmt[contenthash:8].js"
+  },
+  plugins: [
+    new KmtCachebusterWebpackPlugin()
+  ]
+};
+````
+
+Setting the entry/asset `filename`/`chunkFilename` to `[name].kmt[chunkhash:8].js` should be done. This ensures that possible maps and/or code split assets will load with the correct hash (which is embedded in the generated webpack bootstrap)
 
 ### Usage with Encore
 
 As you can not easily change the entry/asset `filename`/`chunkFilename` in [Encore](https://github.com/symfony/webpack-encore), [or do not want to](https://symfony.com/doc/current/frontend/encore/advanced-config.html). You will have to use the following configuration to get the correct assets for KMT.
 
 ````javascript
-const KmtCachebusterWebpackPlugin = require('@kingsquare/kmt-cachebuster-webpack-plugin');
 
 Encore
   // ... and lastly
